@@ -1,0 +1,58 @@
+allprojects {
+    apply plugin: 'maven'
+    group = 'main.linkovich'
+
+    // exclude common trouble makers
+    configurations.all {
+        it.exclude group: 'log4j', module: 'log4j'
+        it.exclude module: 'slf4j-log4j12'
+        it.exclude group: 'commons-logging', module: 'commons-logging'
+        it.exclude module: 'servlet-api'
+        it.exclude module: 'slf4j-simple'
+    }
+}
+
+subprojects {
+    apply plugin: 'groovy'
+
+    tasks.withType(GroovyCompile) {
+        groovyOptions.optimizationOptions.indy = true
+    }
+
+    install.dependsOn check
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile(
+                [group: 'org.codehaus.groovy', name: 'groovy-all', version: project.groovyVersion, classifier: 'indy']
+        )
+        testCompile(
+                [group: 'org.slf4j',      name: 'log4j-over-slf4j',  version: project.slf4jVersion],
+                [group: 'org.slf4j',      name: 'jcl-over-slf4j',    version: project.slf4jVersion],
+                [group: 'ch.qos.logback', name: 'logback-classic',   version: project.logbackVersion],
+        )
+        testCompile(group: 'org.spockframework', name: 'spock-core', version: project.spockVersion) {
+            exclude module: 'groovy-all'
+            exclude module: 'junit-dep'
+        }
+        testCompile(group: 'org.gmock', name: 'gmock', version: project.gmockVersion) {
+            exclude module: 'groovy-all'
+        }
+        testCompile(group: 'junit', name: 'junit', version: project.junitVersion) {
+            exclude module: 'hamcrest-core'
+        }
+    }
+
+    apply plugin: 'codenarc'
+    codenarc {
+        configFile = file("${rootProject.projectDir}/config/codenarc/codenarc.groovy")
+        toolVersion = project.codenarcVersion
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = project.gradleVersion
+}

@@ -1,0 +1,43 @@
+description = "linkovich webapp"
+
+dependencies {
+    compile(
+            [group: 'org.springframework', name: 'spring-context', version: project.springVersion],
+            [group: 'org.springframework', name: 'spring-web', version: project.springVersion],
+            [group: 'org.springframework', name: 'spring-webmvc', version: project.springVersion],
+            [group: 'pl.matisoft', name: 'spring-soy-view', version: project.springSoyViewVersion],
+            [group: 'pl.matisoft', name: 'spring-soy-view-ajax-compiler', version: project.springSoyViewVersion]
+    )
+
+    testCompile(
+            [group: 'org.springframework', name: 'spring-test', version: project.springVersion]
+    )
+
+    runtime group: 'javax.servlet',  name: 'javax.servlet-api', version: project.servletApiVersion
+}
+
+apply plugin: 'jetty'
+jettyRun.contextPath = "/"
+
+apply plugin: 'compass'
+processResources.inputs.files compileSass
+clean.dependsOn cleanCompileSass
+
+jettyRun.dependsOn watchSass
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'http://dl.bintray.com/robfletcher/gradle-plugins' }
+    }
+    dependencies {
+        classpath 'org.gradle.plugins:gradle-compass:1.0.7'
+    }
+}
+
+compass {
+    cssDir = file('src/main/webapp/resources/css/sass')
+    sassDir = file('src/main/webapp/resources/scss')
+}
+
+
