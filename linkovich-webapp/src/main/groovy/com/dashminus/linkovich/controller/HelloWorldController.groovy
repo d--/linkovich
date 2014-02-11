@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
 @Controller
-@RequestMapping("/hi")
 class HelloWorldController {
-    @RequestMapping(method = RequestMethod.GET)
-    String printHiThere(ModelMap model) {
-        model.addAttribute('model', [
-                words: ['hello', 'world']
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    String sayHello(ModelMap model) {
+        model.addAllAttributes([
+                name: 'doofus',
+                profession: 'dingus'
         ])
-        'soy:linkovich.demo.hello'
+        'hello'
     }
 }

@@ -5,10 +5,10 @@ dependencies {
             [group: 'org.springframework', name: 'spring-context', version: project.springVersion],
             [group: 'org.springframework', name: 'spring-web', version: project.springVersion],
             [group: 'org.springframework', name: 'spring-webmvc', version: project.springVersion],
+            [group: 'org.springframework', name: 'spring-context-support', version: project.springVersion],
             [group: 'org.springframework.security', name: 'spring-security-web', version: project.springSecurityVersion],
             [group: 'org.springframework.security', name: 'spring-security-config', version: project.springSecurityVersion],
-            [group: 'pl.matisoft', name: 'spring-soy-view', version: project.springSoyViewVersion],
-            [group: 'pl.matisoft', name: 'spring-soy-view-ajax-compiler', version: project.springSoyViewVersion]
+            [group: 'org.freemarker', name: 'freemarker', version: project.freemarkerVersion]
     )
 
     testCompile(

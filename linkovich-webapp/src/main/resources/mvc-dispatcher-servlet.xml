@@ -9,5 +9,15 @@
     <context:component-scan base-package="com.dashminus.linkovich.controller"/>
     <mvc:annotation-driven/>
     <mvc:resources mapping="/resources/**" location="/resources/" />
-    <import resource="spring-soy-view.xml" />
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+    </bean>
+
 </beans>
